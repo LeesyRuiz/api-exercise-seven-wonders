@@ -1,23 +1,27 @@
 require 'httparty'
 
-#define our global variables
-seven_wonders = ["Great Pyramind of Giza", "Hanging Gardens of Babylon", "Colossus of Rhodes", "Lighthouse of Alexandria", "Statue of Zeus at Olympia", "Temple of Artemis", "Mausoleum at Halicarnassus"]
+class SevenWonders
 
-final_result = {}
-#loop through my seven wonders
-seven_wonders.each do |name|
+  def self.getSevenWondersData
+    seven_wonders = ["Great Pyramind of Giza", "Hanging Gardens of Babylon", "Colossus of Rhodes", "Lighthouse of Alexandria", "Statue of Zeus at Olympia", "Temple of Artemis", "Mausoleum at Halicarnassus"]
+    final_result = {}
 
-  #concatinate google api adress to include my seven wonders
-  response = HTTParty.get("https://maps.googleapis.com/maps/api/geocode/json?address=#{name}")
+    #loop through my seven wonders
+    seven_wonders.each do |name|
+      #concatinate google api adress to include my seven wonders
+      response = HTTParty.get("https://maps.googleapis.com/maps/api/geocode/json?address=#{name}")
 
-  data = JSON.parse(response.body)
-  #data sample below
-  final_result[name] = data['results'][0]['geometry']['location']
+      data = JSON.parse(response.body)
+      #data sample below
+      final_result[name] = data['results'][0]['geometry']['location']
+    end
+
+    return final_result
+  end
 
 end
 
-puts final_result
-
+puts SevenWonders.getSevenWondersData
 
 #data sample result from google api
 # {
